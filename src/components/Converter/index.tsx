@@ -11,6 +11,7 @@ export const Converter = () => {
                 inputValue={inputValue}
                 setInputValue={setInputValue}
                 labelText='Amount'
+                selectProps={{}}
             />
         </div>
     )
