@@ -18,8 +18,10 @@ export const useGetCurrencies = (inputValue: string) => {
         if (!inputValue) {
             setCurrencies(cachedCurrencies.current);
         } else {
-            const newCurrencies = cachedCurrencies.current.filter(([currency]) =>
-                currency.toLowerCase().includes(inputValue.toLowerCase())
+            const newCurrencies = cachedCurrencies.current.filter(
+                ([currency, fullName]) =>
+                    currency.toLowerCase().includes(inputValue.toLowerCase()) ||
+                    fullName.toLowerCase().includes(inputValue.toLowerCase())
             );
             setCurrencies(newCurrencies);
         }
