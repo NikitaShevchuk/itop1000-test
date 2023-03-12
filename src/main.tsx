@@ -1,10 +1,8 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App'
-import './index.css'
+import 'normalize.css';
+import ReactDOM from 'react-dom/client';
+import './assets/scss/index.scss';
+import { Main } from './components/Main';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <Main />
 )
