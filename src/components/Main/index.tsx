@@ -1,4 +1,5 @@
 import { Box } from '../Box'
+import { Converter } from '../Converter'
 import { Header } from '../Header'
 import { Title } from '../Title'
 
@@ -9,7 +10,7 @@ export const Main = () => {
                 <Header />
                 <Title />
                 <Box>
-                    text
+                    <Converter />
                 </Box>
             </div>
         </main>

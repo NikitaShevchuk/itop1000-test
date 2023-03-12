@@ -1,0 +1,17 @@
+.input {
+    input {
+        padding: 12px;
+        box-shadow: var(--input-box-shadow);
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+        border-radius: 6px;
+        border: 1px solid rgb(221, 221, 221);
+        transition: all .3s ease-in-out;
+        margin-top: 5px;
+        &:focus, &:focus-visible {
+            outline: none;
+            border-color: var(--blue);
+        }
+    }
+}
