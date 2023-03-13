@@ -49,3 +49,9 @@ a, .link {
         color: rgba(255, 255, 255, 0.8);
     }
 }
+
+@media(max-width: 1500px) {
+    main {
+        background-position: center -50vh;
+    }
+}
