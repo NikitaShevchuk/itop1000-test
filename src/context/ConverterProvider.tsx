@@ -1,4 +1,5 @@
-import { ConverterActions, ConverterState, converterReducer, converterState } from '@/reducers/converterReducer';
+import { ConverterActions } from '@/reducers/Types';
+import { ConverterState, converterReducer, converterState } from '@/reducers/converterReducer';
 import { FC, ReactNode, createContext, useReducer } from 'react';
 
 export const ConverterContext = createContext<ConverterState | null>(null);
