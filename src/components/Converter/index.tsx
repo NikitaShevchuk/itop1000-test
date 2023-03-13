@@ -3,11 +3,16 @@ import React from 'react'
 import { Input } from '../Input'
 import style from './converter.module.scss'
 import { useSetAmount } from './hooks/useSetAmount'
+import { useSetCurrency } from './hooks/useSetCurrency'
+import { useGetCurrencies } from '../Input/hooks/useGetCurrencies'
 
 export const Converter = () => {
     const state = React.useContext(ConverterContext)
     const setFirstAmount = useSetAmount('firstAmount')
     const setSecondAmount = useSetAmount('secondAmount')
+    const setFirstCurrency = useSetCurrency('first')
+    const setSecondCurrency = useSetCurrency('second')
+    useGetCurrencies()
     console.log(state)
     return (
         <div className={style.converter}>
@@ -23,6 +28,8 @@ export const Converter = () => {
                     id='first-currency'
                     initialValue={state?.firstCurrency || ''}
                     labelText='Currency'
+                    withSelect
+                    setInitialValue={setFirstCurrency}
                 />
             </div>
             <div className={style.converter__column}>
@@ -31,6 +38,14 @@ export const Converter = () => {
                     labelText='Amount'
                     initialValue={state?.secondAmount || ''}
                     setInitialValue={setSecondAmount}
+                />
+                <div className="devider"></div>
+                <Input
+                    id='second-currency'
+                    initialValue={state?.secondCurrency || ''}
+                    labelText='Currency'
+                    withSelect
+                    setInitialValue={setSecondCurrency}
                 />
             </div>
         </div>

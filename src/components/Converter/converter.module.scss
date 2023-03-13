@@ -1,7 +1,10 @@
 .converter {
     display: flex;
     justify-content: center;
-    &__column:first-child {
-        margin-right: 50px;
+    &__column{
+        width: 40%;
+        &:first-child {
+            margin-right: 50px;
+        }   
     }
 }

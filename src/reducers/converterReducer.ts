@@ -1,30 +1,17 @@
+import { ConverterActions, ConverterActionsTypes } from './Types';
+import { checkIfValueIsDigit } from './checkIfValueIsDigit';
+
 export const converterState = {
-    firstCurrency: 'USD' as string,
-    secondCurrency: 'UAH' as string,
+    firstCurrency: 'Loading...' as string,
+    secondCurrency: 'Loading...' as string,
     firstAmount: '' as string,
-    secondAmount: '' as string
+    secondAmount: '' as string,
+    cachedCurrencies: [] as [string, string][],
+    filteredFirstCurrencies: [] as [string, string][],
+    filteredSecondCurrencies: [] as [string, string][]
 } as const;
 
 export type ConverterState = typeof converterState;
-
-export enum ConverterActionsTypes {
-    SET_FIRST_CURRENCY = 'SET_FIRST_CURRENCY',
-    SET_SECOND_CURRENCY = 'SET_SECOND_CURRENCY',
-    SET_FIRST_AMOUNT = 'SET_FIRST_AMOUNT',
-    SET_SECOND_AMOUNT = 'SET_SECOND_AMOUNT'
-}
-
-export interface ConverterActions {
-    type: ConverterActionsTypes;
-    payload: string;
-}
-
-const checkIfValueIsDigit = (value: string) => {
-    if (!/^[0-9.]+$/.test(value)) {
-        if (value !== '') return false;
-    }
-    return true;
-};
 
 export const converterReducer = (
     state: ConverterState,
@@ -46,6 +33,30 @@ export const converterReducer = (
         case ConverterActionsTypes.SET_SECOND_CURRENCY:
             if (action.payload.length < 3) return state;
             return { ...state, secondCurrency: action.payload };
+
+        case ConverterActionsTypes.SET_CACHED_CURRENCIES:
+            return { ...state, cachedCurrencies: action.payload };
+
+        case ConverterActionsTypes.SET_FILTERED_CURRENCIES:
+            if (action.payload.initialValue === state.firstCurrency) {
+                return {
+                    ...state,
+                    filteredFirstCurrencies:
+                        action.payload.filteredCurrencies || state.cachedCurrencies
+                };
+            } else if (action.payload.initialValue === state.secondCurrency) {
+                return {
+                    ...state,
+                    filteredSecondCurrencies:
+                        action.payload.filteredCurrencies || state.cachedCurrencies
+                };
+            } else {
+                return {
+                    ...state,
+                    filteredFirstCurrencies: state.cachedCurrencies,
+                    filteredSecondCurrencies: state.cachedCurrencies
+                };
+            }
         default:
             return state;
     }

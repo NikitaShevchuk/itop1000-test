@@ -1,7 +1,8 @@
+import { ConverterContext } from '@/context/ConverterProvider'
 import classNames from 'classnames'
-import { FC } from 'react'
+import React, { FC } from 'react'
 import { SelectItem } from './SelectItem'
-import { useGetCurrencies } from './hooks/useGetCurrencies'
+import { useFilterCurrencies } from './hooks/useFilterCurrencies'
 import style from './input.module.scss'
 
 const getWrapperClassName = (selectIsShown: boolean) => classNames(
@@ -15,24 +16,39 @@ const getWrapperClassName = (selectIsShown: boolean) => classNames(
 interface Props {
     selectIsShown: boolean
     inputValue: string
+    initialValue: string | undefined
     setIsSelectShown: (isShown: boolean) => void
     setInputValue: (inputValue: string) => void
+    setInitialValue: (currencies: Array<[string, string]> | undefined, isInitial?: boolean) => void
 }
 
 export const Select: FC<Props> = ({
     selectIsShown,
     setIsSelectShown,
     setInputValue,
-    inputValue
+    inputValue,
+    initialValue,
+    setInitialValue,
 }) => {
-    const currencies = useGetCurrencies(inputValue)
+    const state = React.useContext(ConverterContext)
+    const isFirstCurrency = state?.firstCurrency === initialValue
+    const filteredCurrencies = isFirstCurrency
+        ? state?.filteredFirstCurrencies
+        : state?.filteredSecondCurrencies
+
+    useFilterCurrencies(inputValue, state?.cachedCurrencies, initialValue)
+
+    React.useEffect(() => {
+        if (!initialValue || initialValue === 'Loading...') setInitialValue(state?.cachedCurrencies, true);
+    }, [state?.cachedCurrencies]);
+
     const onSelectItemClick = (newInputValue: string) => {
         setInputValue(newInputValue)
         setIsSelectShown(false)
     };
     return (
         <div className={getWrapperClassName(selectIsShown)}>
-            {currencies.map(([title, value]) => (
+            {filteredCurrencies && filteredCurrencies.map(([title, value]) => (
                 <SelectItem
                     title={title}
                     value={value}

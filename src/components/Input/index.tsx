@@ -1,9 +1,9 @@
+import { ConverterContext } from '@/context/ConverterProvider'
 import selectClose from '@assets/icons/select-close.svg'
 import selectOpen from '@assets/icons/select.svg'
-import debounce from 'lodash.debounce'
 import React, { FC } from 'react'
 import { Select } from './Select'
-import { useInitializeValue } from './hooks/useInitializeVules'
+import { useInitializeValue } from './hooks/useInitializeValues'
 import style from './input.module.scss'
 
 interface Props {
@@ -11,8 +11,8 @@ interface Props {
     initialValue?: string
     id: string
     withSelect?: boolean
-    setInitialValue?: (value: string) => void
-    children?: React.ReactNode
+    setInitialValue?: any
+    selectValue?: string
 }
 
 export const Input: FC<Props> = ({
@@ -20,19 +20,38 @@ export const Input: FC<Props> = ({
     initialValue,
     setInitialValue,
     labelText,
-    withSelect
+    withSelect,
 }) => {
     const [inputValue, setInputValue] = React.useState<string>(initialValue || '')
     const [selectIsShown, setIsSelectShown] = React.useState<boolean>(false)
+    const state = React.useContext(ConverterContext)
 
-    const updateInitialValue = useInitializeValue(initialValue, setInputValue, setInitialValue)
+    const updateInitialValue = useInitializeValue(
+        initialValue, setInputValue, setInitialValue, withSelect
+    )
 
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setInputValue(e.target.value)
-        if (!withSelect) updateInitialValue(e.target.value)
+        if (!withSelect) updateInitialValue(e.target.value, state)
     }
-    const closeSelect = () => setTimeout(() => setIsSelectShown(false), 100)
-    const openSelect = () => setIsSelectShown(true)
+    const closeSelect = () => {
+        if (withSelect) {
+            setTimeout(() => setIsSelectShown(false), 100)
+            const isFirst = state && state.firstCurrency === initialValue
+            const currencies = isFirst ? state.filteredFirstCurrencies : state?.filteredSecondCurrencies
+            setInitialValue(currencies)
+        }
+    }
+    const openSelect = () => {
+        if (withSelect) {
+            setInputValue('');
+            setIsSelectShown(true)
+        }
+    }
+
+    const onKeyDown = (e: React.KeyboardEvent) => {
+        if (withSelect && e.key === 'Enter') closeSelect()
+    }
 
     return (
         <div className={style.input}>
@@ -41,6 +60,7 @@ export const Input: FC<Props> = ({
                 <input
                     onFocus={openSelect}
                     onBlur={closeSelect}
+                    onKeyDown={onKeyDown}
                     onChange={onChange}
                     value={inputValue}
                     id={id}
@@ -58,6 +78,8 @@ export const Input: FC<Props> = ({
                     setIsSelectShown={setIsSelectShown}
                     setInputValue={setInputValue}
                     inputValue={inputValue}
+                    initialValue={initialValue}
+                    setInitialValue={setInitialValue}
                 />
             }
         </div>

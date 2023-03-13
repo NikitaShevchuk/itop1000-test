@@ -1,20 +1,20 @@
-import { ConverterContext } from '@/context/ConverterProvider';
-import { ConverterActionsTypes } from '@/reducers/converterReducer';
+import { ConverterActionsTypes } from '@/reducers/Types';
+import { ConverterState } from '@/reducers/converterReducer';
 import { ConvertParams, currenciesService } from '@/services/currencies';
 import React from 'react';
 import { ConverterDispatchContext } from '../../../context/ConverterProvider';
 
-const clearCurrency = (value: string) => {
-    return value.split('-')[0].trim();
+export const clearCurrency = (value: string) => {
+    return value.includes('-') ? value.split('-')[0].trim() : value;
 };
 
 export const useSetAmount = (amountToSet: 'firstAmount' | 'secondAmount') => {
-    const state = React.useContext(ConverterContext);
     const dispatch = React.useContext(ConverterDispatchContext);
-    if (!state || !dispatch) return;
 
-    const { firstCurrency, secondCurrency } = state;
-    return async (amount: string) => {
+    return async (amount: string, state: ConverterState | null) => {
+        if (!state || !dispatch) return;
+        const { firstCurrency, secondCurrency } = state;
+        if (!firstCurrency || !secondCurrency) return;
         const params: ConvertParams = {
             amount: amount,
             from: clearCurrency(amountToSet === 'secondAmount' ? secondCurrency : firstCurrency),
