@@ -39,7 +39,9 @@ export const Select: FC<Props> = ({
     useFilterCurrencies(inputValue, state?.cachedCurrencies, initialValue)
 
     React.useEffect(() => {
-        if (!initialValue || initialValue === 'Loading...') setInitialValue(state?.cachedCurrencies, true);
+        if (!initialValue || initialValue === 'Loading...') {
+            setInitialValue(state?.cachedCurrencies, true)
+        };
     }, [state?.cachedCurrencies]);
 
     const onSelectItemClick = (newInputValue: string) => {

@@ -1,5 +1,5 @@
 import { ConverterActions, ConverterActionsTypes } from './Types';
-import { checkIfValueIsDigit } from './checkIfValueIsDigit';
+import { checkIfValueIsDigit } from './utils/checkIfValueIsDigit';
 
 export const converterState = {
     firstCurrency: 'Loading...' as string,
