@@ -1,7 +1,7 @@
 .input {
     position: relative;
     &__wrapper {
-        max-height: 42px;
+        max-height: 44px;
         position: relative;
         input {
             padding: 12px;
@@ -35,7 +35,7 @@
     }
     &__select, .select {
         width: 100%;
-        max-height: 200px;
+        max-height: 300px;
         overflow-x: hidden;
         position: absolute;
         border-radius: 6px;
