@@ -1,3 +1,4 @@
+import { ConverterProvider } from '@/context/ConverterProvider'
 import { Box } from '../Box'
 import { Converter } from '../Converter'
 import { Header } from '../Header'
@@ -9,9 +10,11 @@ export const Main = () => {
             <div className="container">
                 <Header />
                 <Title />
-                <Box>
-                    <Converter />
-                </Box>
+                <ConverterProvider>
+                    <Box>
+                        <Converter />
+                    </Box>
+                </ConverterProvider>
             </div>
         </main>
     )

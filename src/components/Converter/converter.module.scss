@@ -1,4 +1,7 @@
 .converter {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    &__column:first-child {
+        margin-right: 50px;
+    }
 }

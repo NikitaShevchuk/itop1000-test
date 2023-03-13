@@ -1,5 +1,5 @@
-import style from './header.module.scss'
 import backgroundImage from '@assets/icons/logo.svg'
+import style from './header.module.scss'
 
 export const Header = () => {
     return (
