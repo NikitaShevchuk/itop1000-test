@@ -1,10 +1,10 @@
 import { ConverterContext } from '@/context/ConverterProvider'
 import React from 'react'
 import { Input } from '../Input'
+import { useGetCurrencies } from '../Input/hooks/useGetCurrencies'
 import style from './converter.module.scss'
 import { useSetAmount } from './hooks/useSetAmount'
 import { useSetCurrency } from './hooks/useSetCurrency'
-import { useGetCurrencies } from '../Input/hooks/useGetCurrencies'
 
 export const Converter = () => {
     const state = React.useContext(ConverterContext)
@@ -13,7 +13,6 @@ export const Converter = () => {
     const setFirstCurrency = useSetCurrency('first')
     const setSecondCurrency = useSetCurrency('second')
     useGetCurrencies()
-    console.log(state)
     return (
         <div className={style.converter}>
             <div className={style.converter__column}>
